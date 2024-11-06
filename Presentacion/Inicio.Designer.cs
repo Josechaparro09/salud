@@ -75,7 +75,7 @@ namespace Gui
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.Image = global::Presentacion.Properties.Resources.Diseño_sin_título__10_;
-            this.pictureBox1.Location = new System.Drawing.Point(483, 515);
+            this.pictureBox1.Location = new System.Drawing.Point(482, 515);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(273, 60);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
