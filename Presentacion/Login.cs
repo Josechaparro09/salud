@@ -2,6 +2,7 @@
 using Entidades;
 using Logica;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -242,6 +243,25 @@ namespace Gui
                 textBox_usuario.ForeColor = Color.DarkBlue;
             }
             errorProvider.SetError(textBox_usuario, "");
+        }
+
+        private async void btnTest_Click(object sender, EventArgs e)
+        {
+            var whatsappCliente = new ClienteWhatsApp();
+            bool prueba;
+            //prueba = await whatsappCliente.EnviarMensajePlantillaSimpleAsync("573107214943", "hello_world","en_US");
+
+            var variables = new Dictionary<string, string>
+            {
+                { "1", "Jose Chaparro" },
+                { "2", "Pediatria" },
+                { "3", "02/04/2025" },
+                { "4", "11:00 am" },
+                { "5", "Elver Galarga" }
+            };
+
+            prueba = await whatsappCliente.EnviarMensajePlantillaConVariablesAsync("573216228430", "enviarinfocita", variables);
+            MessageBox.Show(prueba.ToString());
         }
     }
 }
