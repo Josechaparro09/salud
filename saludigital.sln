@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Datos", "Datos\Datos.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentacion", "Presentacion\Presentacion.csproj", "{0C4215CA-4C77-4E0B-8231-CB1648804498}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "saludWeb", "..\..\salud-juan12\salud-juan\saludWeb\saludWeb.csproj", "{C061C515-8B4A-4186-BF07-F0528FDE82E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{0C4215CA-4C77-4E0B-8231-CB1648804498}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C4215CA-4C77-4E0B-8231-CB1648804498}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C4215CA-4C77-4E0B-8231-CB1648804498}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C061C515-8B4A-4186-BF07-F0528FDE82E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C061C515-8B4A-4186-BF07-F0528FDE82E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C061C515-8B4A-4186-BF07-F0528FDE82E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C061C515-8B4A-4186-BF07-F0528FDE82E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

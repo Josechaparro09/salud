@@ -18,6 +18,7 @@ namespace Gui
         private Usuario usuarioActual;
         private Paciente pacienteActual;
         private Doctor doctorActual;
+        private Configuracion configuracion;
 
         public Menu(Usuario usuario)
         {
@@ -26,6 +27,7 @@ namespace Gui
             ConfigurarPermisos();
             AbrirFormEnPanel(new Inicio());
             pacienteActual = ObtenerPaciente();
+            VerificarDatosUsuario();
         }
 
         private Paciente ObtenerPaciente()
@@ -237,10 +239,44 @@ namespace Gui
         {
             Application.Exit();
         }
-
+        void VerificarDatosUsuario()
+        {
+            if (pacienteActual.Cedula == ""||pacienteActual.Telefono=="")
+            {
+                btn_citas.Enabled = false;
+                AbrirFormEnPanel(configuracion = new Configuracion(usuarioActual));
+                MessageBox.Show("Por favor complete los datos del paciente, Telefono, Cedula");
+            }
+            else
+            {
+                btn_citas.Enabled = true;
+            }
+        }
         private void btnConfig_Click(object sender, EventArgs e)
         {
             AbrirFormEnPanel(new Configuracion(usuarioActual));
+        }
+
+        private void timerVerificarDatos_Tick(object sender, EventArgs e)
+        {
+            if (configuracion==null) return;
+            pacienteActual = configuracion.Paciente;
+            if (pacienteActual==null) return;
+            if (pacienteActual.Cedula == "" || pacienteActual.Telefono == "")
+            {
+                btn_citas.Enabled = false;
+                MessageBox.Show("Por favor complete los datos del paciente, Telefono, Cedula");
+                AbrirFormEnPanel(new Configuracion(usuarioActual));
+            }
+            else
+            {
+                btn_citas.Enabled = true;
+            }
+        }
+
+        private void Menu_Enter(object sender, EventArgs e)
+        {
+            
         }
     }
 

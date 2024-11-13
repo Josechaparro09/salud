@@ -23,8 +23,8 @@ public class ClienteWhatsApp
     public ClienteWhatsApp()
     {
         _clienteHttp = new HttpClient();
-        _tokenAcceso = "EAAILTRkdXQIBO8cB1vc2lGZCZA3HpPPBiJ9wAZBtgOAUlYsICaFh0qtFnxoZA95J8ytI3gCfljmzJZCXkg83hiIKsoE6hxTdLwZCBzefAkfgzSQE1lIDzhymHvuKBIZBXToNSkejXuZCaOhZBf09JbZBHOWvQ150F4ZCRCwl8cJPurfTNpKhBDy0bJAMB0iTLNE5JDdTWx2VV85cpu5f7oviBZAzQZAXQygZDZD";
-        _idTelefono = "536741016181404";
+        _tokenAcceso = "EAAGIZAj7iKmsBOyanINBNgHXZBMaTumWVuLZA04SZCBW01zfvWJe8kMHoZC38lrcHAM1B2LZBhKD6zS8avyGPxZCQNWO8ITxdyZAXZCZCDa1EP7ZAjTZCKsBVeORym5qZAfxTVvIkzynpjySFrOlKhPkvK60sgL7sqVITixJBJuNPoeuOex64GIlyUYAT0hoJbWtZAFXBcFQnMr2JC0quiRY9o9aDHuVFxhugZD";
+        _idTelefono = "414206371786629";
         _clienteHttp.DefaultRequestHeaders.Add("Authorization", $"Bearer {_tokenAcceso}");
     }
 
@@ -146,11 +146,40 @@ public class ClienteWhatsApp
     /// <param name="numeroDestino">Número de teléfono del destinatario</param>
     /// <param name="nombrePlantilla">Nombre de la plantilla a utilizar</param>
     /// <param name="variablesPlantilla">Diccionario con las variables y sus valores</param>
-    public async Task<bool> EnviarMensajePlantillaConVariablesAsync(string numeroDestino, string nombrePlantilla, Dictionary<string, string> variablesPlantilla)
+
+    public async Task<bool> EnviarMensajePlantillaConImagenYVariablesAsync(
+    string numeroDestino,
+    string nombrePlantilla,
+    Dictionary<string, string> variablesPlantilla,
+    string idioma = "es_MX")
     {
         try
         {
-            // Construimos los componentes de la plantilla correctamente
+            var componentes = new List<object>
+        {
+            new
+            {
+                type = "header",
+                parameters = new[]
+                {
+                    new
+                    {
+                        type = "image",
+                        image = new { link = "https://i.imgur.com/jPYMbJd.jpeg" }  // Agregamos la URL de la imagen
+                    }
+                }
+            },
+            new
+            {
+                type = "body",
+                parameters = variablesPlantilla.Select(kvp => new
+                {
+                    type = "text",
+                    text = kvp.Value
+                }).ToArray()
+            }
+        };
+
             var cuerpoSolicitud = new
             {
                 messaging_product = "whatsapp",
@@ -159,21 +188,8 @@ public class ClienteWhatsApp
                 template = new
                 {
                     name = nombrePlantilla,
-                    language = new { code = "en_US" },
-                    components = new object[]
-                    {
-                    new
-                    {
-                        type = "body",
-                        parameters = variablesPlantilla
-                            .Select((kvp, index) => new
-                            {
-                                type = "text",
-                                text = kvp.Value
-                            })
-                            .ToArray()
-                    }
-                    }
+                    language = new { code = idioma },
+                    components = componentes
                 }
             };
 
@@ -182,6 +198,7 @@ public class ClienteWhatsApp
                 WriteIndented = true
             });
 
+            // Para debug - muestra el JSON que se enviará
             MessageBox.Show($"JSON a enviar:\n{json}", "Debug", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             var contenido = new StringContent(json, Encoding.UTF8, "application/json");
@@ -223,7 +240,8 @@ public class ClienteWhatsApp
             );
             return false;
         }
-    }    /// <summary>
+    }
+        /// <summary>
          /// Marca un mensaje como leído
          /// </summary>
          /// <param name="idMensaje">ID del mensaje a marcar como leído</param>

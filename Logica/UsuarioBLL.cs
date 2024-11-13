@@ -18,11 +18,11 @@ namespace Logica
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al iniciar sesión: " + ex.Message);
+                throw new Exception("Error al validar las credenciales de inicio de sesión: " + ex.Message);
             }
         }
 
-            public string RegistrarUsuario(string nombres, string apellidos, string nombreUsuario, string contrasena, int? idRol)
+        public string RegistrarUsuario(string nombres, string apellidos, string nombreUsuario, string contrasena, int? idRol)
         {
             if (string.IsNullOrWhiteSpace(nombres) || string.IsNullOrWhiteSpace(apellidos) || string.IsNullOrWhiteSpace(nombreUsuario) || string.IsNullOrWhiteSpace(contrasena))
             {

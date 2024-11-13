@@ -42,7 +42,6 @@ namespace Gui
             this.btn_minimizar_login = new System.Windows.Forms.PictureBox();
             this.btn_registrar_usuario = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.btnTest = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_cerrar_login)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_minimizar_login)).BeginInit();
@@ -166,16 +165,6 @@ namespace Gui
             // 
             this.errorProvider1.ContainerControl = this;
             // 
-            // btnTest
-            // 
-            this.btnTest.Location = new System.Drawing.Point(812, 346);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(75, 23);
-            this.btnTest.TabIndex = 9;
-            this.btnTest.Text = "Prueba";
-            this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
-            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -183,7 +172,6 @@ namespace Gui
             this.BackgroundImage = global::Presentacion.Properties.Resources.Simple_Login_Page_Website_Desktop_Prototype;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1033, 587);
-            this.Controls.Add(this.btnTest);
             this.Controls.Add(this.btn_registrar_usuario);
             this.Controls.Add(this.btn_minimizar_login);
             this.Controls.Add(this.btn_cerrar_login);
@@ -219,6 +207,5 @@ namespace Gui
         private PictureBox btn_minimizar_login;
         private Button btn_registrar_usuario;
         private ErrorProvider errorProvider1;
-        private Button btnTest;
     }
 }

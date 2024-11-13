@@ -235,7 +235,7 @@ namespace Datos
             }
         }
 
-        public Doctor ObtenerDoctorPorId(int idDoctor)
+        public Doctor ObtenerDoctorPorId(int? idDoctor)
         {
             using (OracleConnection conn = conexion.AbrirConexion())
             {
