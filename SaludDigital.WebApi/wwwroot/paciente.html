@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal del Paciente - Salud Digital</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --background-color: #f5f7fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-name {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .logout-btn:hover {
+                background-color: #c0392b;
+            }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+            .welcome-section h1 {
+                font-size: 2.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .welcome-section p {
+                font-size: 1.1rem;
+                color: #666;
+            }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        .option-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px;
+        }
+
+            .option-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+            }
+
+            .option-card.new-appointment {
+                background: linear-gradient(135deg, #3498db, #2980b9);
+            }
+
+            .option-card.view-appointments {
+                background: linear-gradient(135deg, #2ecc71, #27ae60);
+            }
+
+        .option-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .option-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .option-description {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem 0;
+            }
+
+            .welcome-section h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">Salud Digital</a>
+        <div class="user-info">
+            <span class="user-name" id="userName">Cargando...</span>
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="welcome-section">
+            <h1>Bienvenido a tu Portal</h1>
+            <p>¿Qué te gustaría hacer hoy?</p>
+        </div>
+
+        <div class="options-grid">
+            <a href="/nueva-cita.html" class="option-card new-appointment" id="btnNuevaCita">
+                <i class="fas fa-calendar-plus option-icon"></i>
+                <h2 class="option-title">Apartar Cita</h2>
+                <p class="option-description">Agenda una nueva cita médica con nuestros especialistas</p>
+            </a>
+
+            <a href="/mis-citas.html" class="option-card view-appointments" id="btnVerCitas">
+                <i class="fas fa-calendar-check option-icon"></i>
+                <h2 class="option-title">Ver Mis Citas</h2>
+                <p class="option-description">Consulta y administra tus citas programadas</p>
+            </a>
+        </div>
+    </div>
+
+    <script src="/js/sessionService.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Verificar autenticación
+                if (!sessionService.isAuthenticated()) {
+                    window.location.href = '/index.html';
+                    return;
+                }
+
+                // Obtener información del usuario
+                const user = sessionService.getUserInfo();
+
+                // Verificar rol de paciente
+                if (user.rol.idRol !== 21) { // ID del rol paciente
+                    window.location.href = '/index.html';
+                    return;
+                }
+
+                // Actualizar nombre de usuario
+                document.getElementById('userName').textContent = `${user.nombres} ${user.apellidos}`;
+
+                // Configurar botón de logout
+                document.getElementById('logoutBtn').addEventListener('click', () => {
+                    sessionService.clearSession();
+                    window.location.href = '/index.html';
+                });
+
+            } catch (error) {
+                console.error('Error al cargar la información del usuario:', error);
+                alert('Error al cargar la información. Por favor, inicie sesión nuevamente.');
+                sessionService.clearSession();
+                window.location.href = '/index.html';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -13,8 +13,10 @@ using System.Xml.Serialization;
 
 namespace Gui
 {
+    
     public partial class Configuracion : Form
     {
+        public Paciente Paciente { get; set; }
         Usuario _usuario;
         PacienteBLL _pacienteBLL = new PacienteBLL();
         DoctorBLL _doctorBLL = new DoctorBLL();
@@ -279,7 +281,7 @@ namespace Gui
                 _pacienteActual.FechaNacimiento = dtpFechaNacimiento.Value;
 
                 var resultado = _pacienteBLL.ActualizarPaciente(_pacienteActual);
-
+                this.Paciente = _pacienteActual;
                 if (resultado == "Actualización exitosa.")
                 {
                     MessageBox.Show("Datos actualizados correctamente",

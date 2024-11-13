@@ -331,6 +331,61 @@ namespace Datos
                 }
             }
         }
+        public class PacienteDAL
+        {
+            private Conexion conexion;
+
+            public PacienteDAL()
+            {
+                conexion = new Conexion();
+            }
+
+            public Paciente ObtenerPacientePorUsuario(int idUsuario)
+            {
+                using (OracleConnection conn = conexion.AbrirConexion())
+                {
+                    try
+                    {
+                        string query = @"
+                        SELECT IdPaciente, Nombre, Apellido, Cedula, Telefono, 
+                               Direccion, IdUsuario, FechaNacimiento
+                        FROM Paciente 
+                        WHERE IdUsuario = :IdUsuario";
+
+                        using (OracleCommand cmd = new OracleCommand(query, conn))
+                        {
+                            cmd.Parameters.Add(new OracleParameter("IdUsuario", idUsuario));
+
+                            using (OracleDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    return new Paciente
+                                    {
+                                        IdPaciente = Convert.ToInt32(reader["IdPaciente"]),
+                                        Nombre = reader["Nombre"].ToString(),
+                                        Apellido = reader["Apellido"].ToString(),
+                                        Cedula = reader["Cedula"].ToString(),
+                                        Telefono = reader["Telefono"].ToString(),
+                                        Direccion = reader["Direccion"].ToString(),
+                                        FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"])
+                                    };
+                                }
+                                return null;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error al obtener paciente por usuario: " + ex.Message);
+                    }
+                    finally
+                    {
+                        conexion.CloseConnection(conn);
+                    }
+                }
+            }
+        }
     }
 
 }

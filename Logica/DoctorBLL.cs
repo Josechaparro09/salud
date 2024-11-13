@@ -148,7 +148,7 @@ namespace Logica
             }
         }
 
-        public Doctor ObtenerDoctorPorId(int idDoctor)
+        public Doctor ObtenerDoctorPorId(int? idDoctor)
         {
             try
             {

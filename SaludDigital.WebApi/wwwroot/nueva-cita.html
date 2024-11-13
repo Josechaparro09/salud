@@ -1,0 +1,387 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Cita - Salud Digital</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --background-color: #f5f7fa;
+            --text-color: #2c3e50;
+            --border-color: #ddd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        .navbar {
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn {
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+            .back-btn:hover {
+                color: var(--primary-color);
+            }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+            .form-header h1 {
+                color: var(--primary-color);
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                color: var(--text-color);
+            }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+            .form-control:focus {
+                outline: none;
+                border-color: var(--primary-color);
+            }
+
+            .form-control:disabled {
+                background-color: #f5f5f5;
+                cursor: not-allowed;
+            }
+
+        .horarios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .horario-btn {
+            padding: 0.8rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 6px;
+            background-color: white;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+            .horario-btn:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+
+            .horario-btn.selected {
+                background-color: var(--primary-color);
+                color: white;
+            }
+
+        .btn-primary {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 6px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+
+            .btn-primary:hover {
+                background-color: #2980b9;
+            }
+
+            .btn-primary:disabled {
+                background-color: #bdc3c7;
+                cursor: not-allowed;
+            }
+
+        .step-container {
+            margin-bottom: 2rem;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .step-dot {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 1rem;
+            color: var(--text-color);
+            font-weight: bold;
+            position: relative;
+        }
+
+            .step-dot.active {
+                background-color: var(--primary-color);
+                color: white;
+            }
+
+            .step-dot::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                background-color: #eee;
+                right: -100%;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .step-dot:last-child::after {
+                display: none;
+            }
+
+            .step-dot.completed {
+                background-color: var(--secondary-color);
+                color: white;
+            }
+
+                .step-dot.completed::after {
+                    background-color: var(--secondary-color);
+                }
+
+        .step {
+            display: none;
+        }
+
+            .step.active {
+                display: block;
+            }
+
+        .message {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .error-message {
+            background-color: #fde8e8;
+            color: var(--danger-color);
+            border: 1px solid #fbd5d5;
+        }
+
+        .success-message {
+            background-color: #def7ec;
+            color: var(--secondary-color);
+            border: 1px solid #bcf0da;
+        }
+
+        .resumen-cita {
+            background-color: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+            .resumen-cita h3 {
+                color: var(--primary-color);
+                margin-bottom: 1rem;
+            }
+
+        .resumen-item {
+            display: flex;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background-color: white;
+            border-radius: 4px;
+        }
+
+        .resumen-label {
+            font-weight: bold;
+            width: 120px;
+            color: var(--text-color);
+        }
+
+        .resumen-value {
+            flex: 1;
+            color: var(--text-color);
+        }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+        }
+
+            .btn-secondary:hover {
+                background-color: #7f8c8d;
+            }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+                margin: 1rem;
+            }
+
+            .horarios-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+
+            .step-dot {
+                width: 2.5rem;
+                height: 2.5rem;
+                margin: 0 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/paciente.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Volver
+        </a>
+        <span class="user-name" id="userName"></span>
+    </nav>
+
+    <div class="container">
+        <div class="form-header">
+            <h1>Agendar Nueva Cita</h1>
+            <p>Complete los siguientes pasos para agendar su cita médica</p>
+        </div>
+
+        <div class="message error-message" id="errorMessage"></div>
+        <div class="message success-message" id="successMessage"></div>
+
+        <div class="step-indicator">
+            <div class="step-dot active" data-step="1">1</div>
+            <div class="step-dot" data-step="2">2</div>
+            <div class="step-dot" data-step="3">3</div>
+        </div>
+
+        <div id="step1" class="step active">
+            <div class="form-group">
+                <label for="especialidad">Especialidad Médica:</label>
+                <select id="especialidad" class="form-control" required>
+                    <option value="">Seleccione una especialidad</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="doctor">Médico:</label>
+                <select id="doctor" class="form-control" required disabled>
+                    <option value="">Primero seleccione una especialidad</option>
+                </select>
+            </div>
+
+            <button class="btn-primary" onclick="nextStep(1)">
+                Siguiente <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <div id="step2" class="step">
+            <div class="form-group">
+                <label for="fecha">Fecha de la cita:</label>
+                <input type="date" id="fecha" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label>Horarios disponibles:</label>
+                <div id="horariosGrid" class="horarios-grid"></div>
+            </div>
+
+            <div class="navigation-buttons">
+                <button class="btn-primary btn-secondary" onclick="prevStep(2)">
+                    <i class="fas fa-arrow-left"></i> Anterior
+                </button>
+                <button class="btn-primary" onclick="nextStep(2)">
+                    Siguiente <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="step3" class="step">
+            <div class="resumen-cita">
+                <h3>Resumen de la Cita</h3>
+                <div id="resumenCita">
+                    <!-- El contenido se llenará dinámicamente -->
+                </div>
+            </div>
+
+            <div class="navigation-buttons">
+                <button class="btn-primary btn-secondary" onclick="prevStep(3)">
+                    <i class="fas fa-arrow-left"></i> Anterior
+                </button>
+                <button class="btn-primary" onclick="confirmarCita()">
+                    <i class="fas fa-check"></i> Confirmar Cita
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/sessionService.js"></script>
+    <script src="/js/nueva-cita.js"></script>
+</body>
+</html>

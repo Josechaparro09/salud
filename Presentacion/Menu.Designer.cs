@@ -31,6 +31,7 @@ namespace Gui
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menu));
             this.barra_titulo = new System.Windows.Forms.Panel();
             this.btn_restaurar = new System.Windows.Forms.PictureBox();
@@ -52,6 +53,7 @@ namespace Gui
             this.btn_citas = new System.Windows.Forms.Button();
             this.btn_inicio = new System.Windows.Forms.PictureBox();
             this.panel_contenedor = new System.Windows.Forms.Panel();
+            this.timerVerificarDatos = new System.Windows.Forms.Timer(this.components);
             this.barra_titulo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btn_restaurar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_minimizar)).BeginInit();
@@ -320,6 +322,12 @@ namespace Gui
             this.panel_contenedor.Size = new System.Drawing.Size(1235, 656);
             this.panel_contenedor.TabIndex = 2;
             // 
+            // timerVerificarDatos
+            // 
+            this.timerVerificarDatos.Enabled = true;
+            this.timerVerificarDatos.Interval = 300;
+            this.timerVerificarDatos.Tick += new System.EventHandler(this.timerVerificarDatos_Tick);
+            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -333,6 +341,7 @@ namespace Gui
             this.Name = "Menu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu";
+            this.Enter += new System.EventHandler(this.Menu_Enter);
             this.barra_titulo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btn_restaurar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_minimizar)).EndInit();
@@ -369,5 +378,6 @@ namespace Gui
         private PictureBox btn_cerrar_sesion_menu;
         private Label lbl_usuario;
         private PictureBox btnConfig;
+        private Timer timerVerificarDatos;
     }
 }

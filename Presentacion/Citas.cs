@@ -11,6 +11,9 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows;
+using Presentacion;
+using System.Globalization;
 
 namespace Gui
 {
@@ -29,6 +32,7 @@ namespace Gui
         private Paciente _pacienteActual;
         private Cita citaActual;
         private bool ver;
+        private ClienteWhatsApp whatsappCliente;
         public Citas(Paciente paciente, string role, Usuario usuario)
         {
             InitializeComponent();
@@ -37,6 +41,7 @@ namespace Gui
             _doctorBLL = new DoctorBLL();
             _citaBLL = new CitaBLL();
             _historiaClinicaBLL = new HistoriaClinicaBLL();
+            whatsappCliente=new ClienteWhatsApp();
             usuarioActual = usuario;
             _pacienteActual = paciente;
             this.AutoValidate = AutoValidate.EnableAllowFocusChange;
@@ -492,7 +497,38 @@ namespace Gui
             dtpFecha.Enabled = false;
             cbxHorario.Enabled = false;
         }
+        public static string FormatearFecha(DateTime fecha)
+        {
+            // Formatear la fecha en el formato deseado
+            return fecha.ToString("dd 'de' MMMM 'del' yyyy", new CultureInfo("es-ES"));
+        }
+        public static string FormatearHora(TimeSpan horaCita)
+        {
+            // Convertir TimeSpan a DateTime para formatear
+            DateTime dateTime = DateTime.Today.Add(horaCita);
+            return dateTime.ToString("hh:mm tt").ToLower();
+        }
+        private async void enviarMensajeWhatsapp(Cita cita)
+        {
+            string numeroTelefono = NumeroDialogo.ShowDialog("Ingrese el número de teléfono para enviar la cita:", "Enviar Cita");
+            if (numeroTelefono != null)
+            {
+                MessageBox.Show($"Número de teléfono ingresado: {numeroTelefono}", "Número de Teléfono", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            var doctor = _doctorBLL.ObtenerDoctorPorId(cita.DoctorId);
 
+            var variables = new Dictionary<string, string>
+            {
+                { "1", cita.Paciente.Nombre },
+                { "2", doctor.Especialidad.NombreEspecialidad },
+                { "3", FormatearFecha(cita.FechaCita)},
+                { "4",  FormatearHora(cita.HoraCita)},
+                { "5", cita.Doctor.Nombre }
+            };
+
+            var respuesta = await whatsappCliente.EnviarMensajePlantillaConImagenYVariablesAsync($"57{numeroTelefono}", "citainfo", variables);
+
+        }
         private void RegistrarCita()
         {
             try
@@ -502,19 +538,19 @@ namespace Gui
                 {
                     _pacienteSeleccionado = _pacienteActual;
                 }
-                var cita = new Cita
-                {
-                    PacienteId = _pacienteSeleccionado.IdPaciente,
-                    DoctorId = (int)cbxDoctor.SelectedValue,
-                    FechaCita = dtpFecha.Value,
-                    HoraCita = (TimeSpan)cbxHorario.SelectedItem,
-                    Estado = "Pendiente",
-                    Paciente = _pacienteActual
-                };
+                var cita = new Cita();
+                cita.PacienteId = _pacienteSeleccionado.IdPaciente;
+                cita.DoctorId = (int)cbxDoctor.SelectedValue;
+                cita.FechaCita = dtpFecha.Value;
+                cita.HoraCita = (TimeSpan)cbxHorario.SelectedItem;
+                cita.Estado = "Pendiente";
+                cita.Paciente = _pacienteActual;
+                cita.Doctor = new Doctor { IdDoctor = (int)cbxDoctor.SelectedValue, Nombre = cbxDoctor.Text };
 
                 var resultado = _citaBLL.RegistrarCita(cita);
                 MessageBox.Show(resultado, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LimpiarFormulario();
+                enviarMensajeWhatsapp(cita);
             }
             catch (Exception ex)
             {
