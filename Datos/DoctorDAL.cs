@@ -21,7 +21,7 @@ namespace Datos
             {
                 try
                 {
-                    string query = @"SELECT IdPaciente, Cedula, Nombre, Telefono, Direccion 
+                    string query = @"SELECT IdPaciente, Cedula, Nombre, Telefono, Direccion,Sexo 
                            FROM Paciente 
                            WHERE LOWER(Cedula) LIKE LOWER(:criterio) 
                            OR LOWER(Nombre) LIKE LOWER(:criterio)";
@@ -39,7 +39,8 @@ namespace Datos
                                     Cedula = reader["Cedula"].ToString(),
                                     Nombre = reader["Nombre"].ToString(),
                                     Telefono = reader["Telefono"].ToString(),
-                                    Direccion = reader["Direccion"].ToString()
+                                    Direccion = reader["Direccion"].ToString(),
+                                    Sexo = reader["Sexo"].ToString(),
                                 });
                             }
                         }
@@ -65,7 +66,7 @@ namespace Datos
             {
                 try
                 {
-                    string query = @"SELECT d.IdDoctor, d.Nombre, d.Cedula, d.Telefono, 
+                    string query = @"SELECT d.IdDoctor, d.Nombre, d.Cedula, d.Telefono, d.Sexo,
                                    d.IdEspecialidad, e.NombreEspecialidad 
                                    FROM Doctor d 
                                    LEFT JOIN Especialidad e ON d.IdEspecialidad = e.IdEspecialidad";
@@ -90,6 +91,7 @@ namespace Datos
                                     Nombre = reader["Nombre"].ToString(),
                                     Cedula = reader["Cedula"].ToString(),
                                     Telefono = reader["Telefono"].ToString(),
+                                    Sexo = reader["Sexo"].ToString(),
                                     Especialidad = especialidad
                                 };
 
@@ -125,7 +127,8 @@ namespace Datos
                         Nombres = doctor.Nombre,
                         Apellidos = "", 
                         NombreUsuario = doctor.Cedula,
-                        Contraseña = doctor.Cedula,IdUsuario=doctor.IdUsuario
+                        Contraseña = doctor.Cedula,IdUsuario=doctor.IdUsuario,
+                        Sexo=doctor.Sexo,
                     };
 
 
@@ -168,8 +171,8 @@ namespace Datos
                     }
 
                     string queryInsertarDoctor = @"
-                INSERT INTO Doctor (Nombre, Cedula, Telefono, IdEspecialidad, IdUsuario) 
-                VALUES (:Nombre, :Cedula, :Telefono, :IdEspecialidad, :IdUsuario)";
+                INSERT INTO Doctor (Nombre, Cedula, Telefono, IdEspecialidad, IdUsuario,Sexo) 
+                VALUES (:Nombre, :Cedula, :Telefono, :IdEspecialidad, :IdUsuario, :Sexo)";
 
                     using (OracleCommand cmdInsertarDoc = new OracleCommand(queryInsertarDoctor, conn))
                     {
@@ -179,6 +182,7 @@ namespace Datos
                         cmdInsertarDoc.Parameters.Add("Telefono", doctor.Telefono);
                         cmdInsertarDoc.Parameters.Add("IdEspecialidad", idEspecialidad);
                         cmdInsertarDoc.Parameters.Add("IdUsuario", doctor.IdUsuario);
+                        cmdInsertarDoc.Parameters.Add("Sexo", doctor.IdUsuario);
 
                         cmdInsertarDoc.ExecuteNonQuery();
                     }
@@ -210,7 +214,7 @@ namespace Datos
                                    SET Nombre = :Nombre, 
                                        Cedula = :Cedula, 
                                        Telefono = :Telefono, 
-                                       IdEspecialidad = :IdEspecialidad 
+                                       IdEspecialidad = :IdEspecialidad, Sexo = :Sexo
                                    WHERE IdDoctor = :IdDoctor";
 
                     using (OracleCommand cmd = new OracleCommand(query, conn))
@@ -220,6 +224,7 @@ namespace Datos
                         cmd.Parameters.Add(new OracleParameter("Telefono", doctor.Telefono));
                         cmd.Parameters.Add(new OracleParameter("IdEspecialidad", doctor.Especialidad.IdEspecialidad));
                         cmd.Parameters.Add(new OracleParameter("IdDoctor", doctor.IdDoctor));
+                        cmd.Parameters.Add(new OracleParameter("Sexo", doctor.Sexo));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -241,7 +246,7 @@ namespace Datos
             {
                 try
                 {
-                    string query = @"SELECT d.IdDoctor, d.Nombre, d.Cedula, d.Telefono, 
+                    string query = @"SELECT d.IdDoctor, d.Nombre, d.Cedula, d.Telefono, d.Sexo,
                                    d.IdEspecialidad, e.NombreEspecialidad 
                                    FROM Doctor d 
                                    LEFT JOIN Especialidad e ON d.IdEspecialidad = e.IdEspecialidad 
@@ -269,7 +274,8 @@ namespace Datos
                                     Nombre = reader["Nombre"].ToString(),
                                     Cedula = reader["Cedula"].ToString(),
                                     Telefono = reader["Telefono"].ToString(),
-                                    Especialidad = especialidad
+                                    Especialidad = especialidad,
+                                    Sexo= reader["Sexo"].ToString(),
                                 };
                             }
                             return null;
@@ -329,7 +335,7 @@ namespace Datos
             {
                 try
                 {
-                    string query = @"SELECT d.IdDoctor, d.Nombre, d.Cedula, d.Telefono, 
+                    string query = @"SELECT d.IdDoctor, d.Nombre, d.Cedula, d.Telefono,d.Sexo,
                            d.IdEspecialidad, e.NombreEspecialidad 
                            FROM Doctor d 
                            LEFT JOIN Especialidad e ON d.IdEspecialidad = e.IdEspecialidad 
@@ -355,6 +361,7 @@ namespace Datos
                                     Nombre = reader["Nombre"].ToString(),
                                     Cedula = reader["Cedula"].ToString(),
                                     Telefono = reader["Telefono"].ToString(),
+                                    Sexo = reader["Sexo"].ToString(),
                                     Especialidad = especialidad
                                 };
 
@@ -413,7 +420,7 @@ namespace Datos
                                d.Cedula, 
                                d.Telefono, 
                                d.IdEspecialidad, 
-                               d.IdUsuario,
+                               d.IdUsuario, d.Sexo
                                e.NombreEspecialidad 
                            FROM Doctor d 
                            LEFT JOIN Especialidad e ON d.IdEspecialidad = e.IdEspecialidad 
@@ -442,6 +449,7 @@ namespace Datos
                                     Cedula = reader["Cedula"].ToString(),
                                     Telefono = reader["Telefono"].ToString(),
                                     IdUsuario = Convert.ToInt32(reader["IdUsuario"]),
+                                    Sexo = reader["Sexo"].ToString(),
                                     Especialidad = especialidad
                                 };
                             }

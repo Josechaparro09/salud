@@ -23,7 +23,7 @@ namespace Datos
             {
                 try
                 {
-                    string query = "SELECT u.IdUsuario, u.Nombres, u.Apellidos, u.NombreUsuario, u.Contraseña, u.idRol, r.nombreRol FROM Usuario u LEFT JOIN Rol r ON u.idRol = r.idRol";
+                    string query = "SELECT u.IdUsuario, u.Nombres, u.Apellidos, u.NombreUsuario, u.Contraseña, u.idRol,u.Sexo, r.nombreRol FROM Usuario u LEFT JOIN Rol r ON u.idRol = r.idRol";
 
                     using (OracleCommand cmd = new OracleCommand(query, conn))
                     {
@@ -44,7 +44,8 @@ namespace Datos
                                     Apellidos = reader["Apellidos"].ToString(),
                                     NombreUsuario = reader["NombreUsuario"].ToString(),
                                     Contraseña = reader["Contraseña"].ToString(),
-                                    Rol = rol
+                                    Rol = rol,
+                                    Sexo= reader["Sexo"].ToString()
                                 };
 
                                 usuarios.Add(usuario);
@@ -71,8 +72,8 @@ namespace Datos
             {
                 try
                 {
-                    string query = "INSERT INTO Usuario (Nombres, Apellidos, NombreUsuario, Contraseña, idRol) " +
-                                   "VALUES (:Nombres, :Apellidos, :NombreUsuario, :Contraseña, :idRol)";
+                    string query = "INSERT INTO Usuario (Nombres, Apellidos, NombreUsuario, Contraseña, idRol, Sexo) " +
+                                   "VALUES (:Nombres, :Apellidos, :NombreUsuario, :Contraseña, :idRol, :Sexo)";
 
                     using (OracleCommand cmd = new OracleCommand(query, conn))
                     {
@@ -81,6 +82,8 @@ namespace Datos
                         cmd.Parameters.Add(new OracleParameter("NombreUsuario", usuario.NombreUsuario));
                         cmd.Parameters.Add(new OracleParameter("Contraseña", usuario.Contraseña));
                         cmd.Parameters.Add(new OracleParameter("idRol", usuario.Rol.IdRol));
+                        cmd.Parameters.Add(new OracleParameter("Sexo", usuario.Sexo));
+
 
                         cmd.ExecuteNonQuery(); 
                     }
@@ -102,7 +105,7 @@ namespace Datos
             {
                 try
                 {
-                    string query = "UPDATE Usuario SET Nombres = :Nombres, Apellidos = :Apellidos, NombreUsuario = :NombreUsuario, Contraseña = :Contraseña, idRol = :idRol " +
+                    string query = "UPDATE Usuario SET Nombres = :Nombres, Apellidos = :Apellidos, NombreUsuario = :NombreUsuario, Contraseña = :Contraseña, idRol = :idRol,Sexo =:Sexo" +
                                    "WHERE IdUsuario = :IdUsuario";
 
                     using (OracleCommand cmd = new OracleCommand(query, conn))
@@ -113,6 +116,7 @@ namespace Datos
                         cmd.Parameters.Add(new OracleParameter("Contraseña", usuario.Contraseña));
                         cmd.Parameters.Add(new OracleParameter("idRol", usuario.Rol.IdRol));
                         cmd.Parameters.Add(new OracleParameter("IdUsuario", usuario.IdUsuario));
+                        cmd.Parameters.Add(new OracleParameter("Sexo", usuario.Sexo));
 
                         cmd.ExecuteNonQuery(); 
                     }
@@ -163,8 +167,8 @@ namespace Datos
                     transaction = conn.BeginTransaction();
 
                     string queryUsuario = @"INSERT INTO Usuario 
-                (Nombres, Apellidos, NombreUsuario, Contraseña, idRol) 
-                VALUES (:Nombres, :Apellidos, :NombreUsuario, :Contraseña, :idRol) 
+                (Nombres, Apellidos, NombreUsuario, Contraseña, idRol,Sexo) 
+                VALUES (:Nombres, :Apellidos, :NombreUsuario, :Contraseña, :idRol , :Sexo) 
                 RETURNING IdUsuario INTO :IdUsuario";
 
                     int idUsuarioGenerado;
@@ -177,6 +181,7 @@ namespace Datos
                         cmd.Parameters.Add(new OracleParameter("NombreUsuario", usuario.NombreUsuario));
                         cmd.Parameters.Add(new OracleParameter("Contraseña", usuario.Contraseña));
                         cmd.Parameters.Add(new OracleParameter("idRol", usuario.Rol.IdRol));
+                        cmd.Parameters.Add(new OracleParameter("Sexo", usuario.Sexo));
 
                         OracleParameter paramId = new OracleParameter("IdUsuario", OracleDbType.Int32);
                         paramId.Direction = System.Data.ParameterDirection.Output;
@@ -188,8 +193,8 @@ namespace Datos
                     }
 
                     string queryPaciente = @"INSERT INTO Paciente 
-                (Nombre, Apellido, Cedula, Telefono, Direccion, IdUsuario, FechaNacimiento) 
-                VALUES (:Nombre, :Apellido, :Cedula, :Telefono, :Direccion, :IdUsuario, :FechaNacimiento)";
+                (Nombre, Apellido, Cedula, Telefono, Direccion, IdUsuario, FechaNacimiento, Sexo) 
+                VALUES (:Nombre, :Apellido, :Cedula, :Telefono, :Direccion, :IdUsuario, :FechaNacimiento, :Sexo)";
 
                     using (OracleCommand cmd = new OracleCommand(queryPaciente, conn))
                     {
@@ -201,7 +206,8 @@ namespace Datos
                         cmd.Parameters.Add(new OracleParameter("Telefono", DBNull.Value));
                         cmd.Parameters.Add(new OracleParameter("Direccion", DBNull.Value));
                         cmd.Parameters.Add(new OracleParameter("IdUsuario", idUsuarioGenerado));
-                        cmd.Parameters.Add(new OracleParameter("FechaNacimiento", DateTime.Now)); 
+                        cmd.Parameters.Add(new OracleParameter("FechaNacimiento", DateTime.Now));
+                        cmd.Parameters.Add(new OracleParameter("Sexo", usuario.Sexo));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -291,8 +297,8 @@ namespace Datos
 
 
                     string queryUsuario = @"INSERT INTO Usuario 
-                (Nombres, Apellidos, NombreUsuario, Contraseña, idRol) 
-                VALUES (:Nombres, :Apellidos, :NombreUsuario, :Contraseña, :idRol) 
+                (Nombres, Apellidos, NombreUsuario, Contraseña, idRol,Sexo) 
+                VALUES (:Nombres, :Apellidos, :NombreUsuario, :Contraseña, :idRol,:Sexo) 
                 RETURNING IdUsuario INTO :IdUsuario";
 
                     int idUsuarioGenerado;
@@ -305,6 +311,8 @@ namespace Datos
                         cmd.Parameters.Add(new OracleParameter("NombreUsuario", usuario.NombreUsuario));
                         cmd.Parameters.Add(new OracleParameter("Contraseña", usuario.Contraseña));
                         cmd.Parameters.Add(new OracleParameter("idRol", usuario.Rol.IdRol));
+                        cmd.Parameters.Add(new OracleParameter("Sexo", usuario.Sexo));
+
 
                         OracleParameter paramId = new OracleParameter("IdUsuario", OracleDbType.Int32);
                         paramId.Direction = System.Data.ParameterDirection.Output;
@@ -368,7 +376,9 @@ namespace Datos
                                         Cedula = reader["Cedula"].ToString(),
                                         Telefono = reader["Telefono"].ToString(),
                                         Direccion = reader["Direccion"].ToString(),
-                                        FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"])
+                                        FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"]),
+                                        Sexo= reader["Sexo"].ToString()
+
                                     };
                                 }
                                 return null;

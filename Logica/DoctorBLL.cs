@@ -44,7 +44,8 @@ namespace Logica
                     Apellidos =apellido,
                     NombreUsuario = doctor.Cedula, 
                     Contraseña = doctor.Cedula,    
-                    Rol = new Rol() { IdRol=2,NombreRol="doctor"}
+                    Rol = new Rol() { IdRol=2,NombreRol="doctor"},
+                    Sexo = doctor.Sexo
                 };
 
                 int idUsuario = _usuarioDAL.RegistrarUsuarioConRol(usuario);

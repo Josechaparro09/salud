@@ -51,10 +51,6 @@
                 color: var(--primary-color);
             }
 
-        .user-name {
-            font-weight: 500;
-        }
-
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -77,13 +73,13 @@
 
         .form-group {
             margin-bottom: 1.5rem;
+            position: relative;
         }
 
             .form-group label {
                 display: block;
                 margin-bottom: 0.5rem;
                 font-weight: 500;
-                color: var(--text-color);
             }
 
         .form-control {
@@ -98,11 +94,176 @@
             .form-control:focus {
                 outline: none;
                 border-color: var(--primary-color);
+                box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
             }
 
             .form-control:disabled {
                 background-color: #f5f5f5;
                 cursor: not-allowed;
+                opacity: 0.7;
+            }
+
+        .btn-primary {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 6px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+
+            .btn-primary:hover {
+                background-color: #2980b9;
+            }
+
+        .message {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .error-message {
+            background-color: #fde8e8;
+            color: var(--danger-color);
+            border: 1px solid #fbd5d5;
+        }
+
+        .success-message {
+            background-color: #def7ec;
+            color: var(--secondary-color);
+            border: 1px solid #bcf0da;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: white;
+            margin: 15% auto;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #666;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+            .modal-close:hover {
+                background-color: #f0f0f0;
+                color: #333;
+            }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .modal input[type="tel"] {
+            width: 100%;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .form-text {
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .step-dot {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 1rem;
+            color: var(--text-color);
+            font-weight: bold;
+            position: relative;
+        }
+
+            .step-dot.active {
+                background-color: var(--primary-color);
+                color: white;
+            }
+
+            .step-dot.completed {
+                background-color: var(--secondary-color);
+                color: white;
+            }
+
+            .step-dot::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                background-color: #eee;
+                right: -100%;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .step-dot:last-child::after {
+                display: none;
+            }
+
+        .step {
+            display: none;
+        }
+
+            .step.active {
+                display: block;
+            }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+        }
+
+            .btn-secondary:hover {
+                background-color: #7f8c8d;
             }
 
         .horarios-grid {
@@ -133,108 +294,6 @@
                 color: white;
             }
 
-        .btn-primary {
-            width: 100%;
-            padding: 1rem;
-            border: none;
-            border-radius: 6px;
-            background-color: var(--primary-color);
-            color: white;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 1rem;
-        }
-
-            .btn-primary:hover {
-                background-color: #2980b9;
-            }
-
-            .btn-primary:disabled {
-                background-color: #bdc3c7;
-                cursor: not-allowed;
-            }
-
-        .step-container {
-            margin-bottom: 2rem;
-        }
-
-        .step-indicator {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-
-        .step-dot {
-            width: 3rem;
-            height: 3rem;
-            border-radius: 50%;
-            background-color: #eee;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 1rem;
-            color: var(--text-color);
-            font-weight: bold;
-            position: relative;
-        }
-
-            .step-dot.active {
-                background-color: var(--primary-color);
-                color: white;
-            }
-
-            .step-dot::after {
-                content: '';
-                position: absolute;
-                width: 100%;
-                height: 2px;
-                background-color: #eee;
-                right: -100%;
-                top: 50%;
-                transform: translateY(-50%);
-            }
-
-            .step-dot:last-child::after {
-                display: none;
-            }
-
-            .step-dot.completed {
-                background-color: var(--secondary-color);
-                color: white;
-            }
-
-                .step-dot.completed::after {
-                    background-color: var(--secondary-color);
-                }
-
-        .step {
-            display: none;
-        }
-
-            .step.active {
-                display: block;
-            }
-
-        .message {
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            display: none;
-        }
-
-        .error-message {
-            background-color: #fde8e8;
-            color: var(--danger-color);
-            border: 1px solid #fbd5d5;
-        }
-
-        .success-message {
-            background-color: #def7ec;
-            color: var(--secondary-color);
-            border: 1px solid #bcf0da;
-        }
-
         .resumen-cita {
             background-color: #f8fafc;
             padding: 1.5rem;
@@ -258,36 +317,41 @@
         .resumen-label {
             font-weight: bold;
             width: 120px;
-            color: var(--text-color);
         }
 
         .resumen-value {
             flex: 1;
-            color: var(--text-color);
         }
 
-        .navigation-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
+        /* Estilos para el indicador de carga */
+        .loading-indicator {
+            display: none;
+            margin-left: 0.5rem;
+            color: var(--primary-color);
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
-        .btn-secondary {
-            background-color: #95a5a6;
-        }
-
-            .btn-secondary:hover {
-                background-color: #7f8c8d;
+            .loading-indicator i {
+                animation: spin 1s linear infinite;
             }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
 
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
                 margin: 1rem;
-            }
-
-            .horarios-grid {
-                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
             }
 
             .step-dot {
@@ -327,6 +391,9 @@
                 <select id="especialidad" class="form-control" required>
                     <option value="">Seleccione una especialidad</option>
                 </select>
+                <span id="especialidadLoadingIndicator" class="loading-indicator">
+                    <i class="fas fa-spinner"></i>
+                </span>
             </div>
 
             <div class="form-group">
@@ -334,6 +401,9 @@
                 <select id="doctor" class="form-control" required disabled>
                     <option value="">Primero seleccione una especialidad</option>
                 </select>
+                <span id="doctorLoadingIndicator" class="loading-indicator">
+                    <i class="fas fa-spinner"></i>
+                </span>
             </div>
 
             <button class="btn-primary" onclick="nextStep(1)">
@@ -349,7 +419,9 @@
 
             <div class="form-group">
                 <label>Horarios disponibles:</label>
-                <div id="horariosGrid" class="horarios-grid"></div>
+                <div id="horariosGrid" class="horarios-grid">
+                    <p>Seleccione una fecha para ver los horarios disponibles</p>
+                </div>
             </div>
 
             <div class="navigation-buttons">
@@ -365,9 +437,7 @@
         <div id="step3" class="step">
             <div class="resumen-cita">
                 <h3>Resumen de la Cita</h3>
-                <div id="resumenCita">
-                    <!-- El contenido se llenará dinámicamente -->
-                </div>
+                <div id="resumenCita"></div>
             </div>
 
             <div class="navigation-buttons">
@@ -380,8 +450,33 @@
             </div>
         </div>
     </div>
+    <div id="confirmacionModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="modal-close" onclick="cerrarModal()">×</button>
+            <h2>Confirmar Cita</h2>
+            <p>Tu cita ha sido agendada. ¿Deseas recibir la confirmación por WhatsApp?</p>
+
+            <div class="form-group">
+                <label for="telefono">Número de teléfono:</label>
+                <input type="tel" id="telefono" class="form-control" placeholder="Ingrese su número de teléfono" pattern="[0-9]{10}">
+                <small class="form-text text-muted">Ingrese su número sin el prefijo +57</small>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="cerrarModal()">
+                    No, gracias
+                </button>
+                <button class="btn btn-primary" onclick="enviarConfirmacion()">
+                    Sí, enviar confirmación
+                </button>
+            </div>
+        </div>
+    </div>
+
+
 
     <script src="/js/sessionService.js"></script>
     <script src="/js/nueva-cita.js"></script>
+
 </body>
 </html>

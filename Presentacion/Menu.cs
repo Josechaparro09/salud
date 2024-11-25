@@ -27,7 +27,12 @@ namespace Gui
             ConfigurarPermisos();
             AbrirFormEnPanel(new Inicio());
             pacienteActual = ObtenerPaciente();
-            VerificarDatosUsuario();
+            if (pacienteActual !=null)
+            {
+                
+                VerificarDatosUsuario();
+            }
+            
         }
 
         private Paciente ObtenerPaciente()
@@ -241,6 +246,7 @@ namespace Gui
         }
         void VerificarDatosUsuario()
         {
+            if (pacienteActual == null) return;
             if (pacienteActual.Cedula == ""||pacienteActual.Telefono=="")
             {
                 btn_citas.Enabled = false;
@@ -260,6 +266,7 @@ namespace Gui
         private void timerVerificarDatos_Tick(object sender, EventArgs e)
         {
             if (configuracion==null) return;
+            if (configuracion == null) return;
             pacienteActual = configuracion.Paciente;
             if (pacienteActual==null) return;
             if (pacienteActual.Cedula == "" || pacienteActual.Telefono == "")

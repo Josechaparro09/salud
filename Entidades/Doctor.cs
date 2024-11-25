@@ -15,20 +15,22 @@ namespace Entidades
         public int? IdEspecialidad { get; set; }
         public Especialidad Especialidad { get; set; }
         public int IdUsuario { get; set; }
+        public string Sexo { get; set; }
 
         public Doctor() { }
 
-        public Doctor(int? idDoctor, string nombre, int? idEspecialidad,Especialidad especialidad, string telefono, string cedula)
+        public Doctor(int? idDoctor, string nombre, int? idEspecialidad,Especialidad especialidad, string telefono, string cedula, string sexo = null)
         {
             IdDoctor = idDoctor;
             Nombre = nombre;
-            IdEspecialidad= idEspecialidad;
+            IdEspecialidad = idEspecialidad;
             Especialidad = especialidad;
             Telefono = telefono;
             Cedula = cedula;
+            Sexo = sexo;
         }
 
-        public Doctor(string nombre,int? idEspecialidad, Especialidad especialidad, string telefono,string cedula)
+        public Doctor(string nombre,int? idEspecialidad, Especialidad especialidad, string telefono,string cedula, string sexo = null)
         {
             IdDoctor = null;
             Nombre = nombre;
@@ -36,6 +38,7 @@ namespace Entidades
             Especialidad = especialidad;
             Telefono = telefono;
             Cedula = cedula;
+            Sexo= sexo;
         }
 
 

@@ -25,8 +25,21 @@ namespace SaludDigital.WebApi.Controllers
             try
             {
                 _logger.LogInformation("Iniciando obtención de especialidades");
+
                 var especialidades = _especialidadBLL.ObtenerEspecialidades();
-                _logger.LogInformation($"Especialidades obtenidas: {especialidades.Count}");
+
+                _logger.LogInformation($"Se encontraron {especialidades.Count} especialidades");
+
+                if (especialidades.Count == 0)
+                {
+                    _logger.LogWarning("No se encontraron especialidades en la base de datos");
+                    return Ok(new { success = true, data = new List<Especialidad>() });
+                }
+
+                foreach (var esp in especialidades)
+                {
+                    _logger.LogDebug($"Especialidad encontrada: ID={esp.IdEspecialidad}, Nombre={esp.NombreEspecialidad}");
+                }
 
                 return Ok(new
                 {
@@ -37,19 +50,13 @@ namespace SaludDigital.WebApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error obteniendo especialidades");
-                return BadRequest(new
+                return StatusCode(500, new
                 {
                     success = false,
-                    message = "Error al obtener especialidades: " + ex.Message
+                    message = "Error al obtener especialidades: " + ex.Message,
+                    details = ex.StackTrace
                 });
             }
-        }
-
-        // Endpoint de prueba para verificar que el controlador está funcionando
-        [HttpGet("test")]
-        public IActionResult Test()
-        {
-            return Ok(new { message = "Controlador de Especialidades funcionando" });
         }
     }
 }

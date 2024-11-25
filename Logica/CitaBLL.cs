@@ -35,25 +35,46 @@ namespace Logica
 
         public string RegistrarCita(Cita cita)
         {
-            if (cita.FechaCita == default || cita.HoraCita == default)
-            {
-                return "Por favor, complete todos los campos requeridos.";
-            }
-
             try
             {
+                // Validaciones más específicas
+                if (cita == null)
+                {
+                    return "Error: Datos de cita inválidos";
+                }
+
+                if (cita.PacienteId <= 0)
+                {
+                    return "Error: ID de paciente inválido";
+                }
+
+                if (cita.DoctorId <= 0)
+                {
+                    return "Error: ID de doctor inválido";
+                }
+
+                if (cita.FechaCita == default)
+                {
+                    return "Error: Fecha de cita inválida";
+                }
+
+                if (string.IsNullOrEmpty(cita.HoraCita.ToString()))
+                {
+                    return "Error: Hora de cita inválida";
+                }
+
+                // Crear la nueva cita
                 var nuevaCita = new Cita
                 {
                     FechaCita = cita.FechaCita,
-                    HoraCita = cita.HoraCita,
-                    Paciente = cita.Paciente,
-                    Doctor = cita.Doctor,
-                    DoctorId = cita.DoctorId,
+                    HoraCita = TimeSpan.Parse(cita.HoraCita.ToString()),
                     PacienteId = cita.PacienteId,
+                    DoctorId = cita.DoctorId,
+                    Estado = "Pendiente"
                 };
 
                 citaDAL.GuardarCita(nuevaCita);
-                return "Registro exitoso.";
+                return "Cita registrada exitosamente.";
             }
             catch (Exception ex)
             {

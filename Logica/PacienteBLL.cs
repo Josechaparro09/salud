@@ -61,7 +61,7 @@ namespace Logica
             }
         }
 
-        public string RegistrarPaciente(string nombre, string apellido, string direccion, string telefono, DateTime fechaNacimiento, string cedula)
+        public string RegistrarPaciente(string nombre, string apellido, string direccion, string telefono, DateTime fechaNacimiento, string cedula, string sexo = null)
         {
             if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(cedula) || string.IsNullOrWhiteSpace(apellido) || string.IsNullOrWhiteSpace(direccion) || string.IsNullOrWhiteSpace(telefono))
             {
@@ -77,7 +77,8 @@ namespace Logica
                     Direccion = direccion,
                     Telefono = telefono,
                     FechaNacimiento = fechaNacimiento,
-                    Cedula = cedula
+                    Cedula = cedula,
+                    Sexo = sexo
                 };
 
                 pacienteDAL.GuardarPaciente(nuevoPaciente);
@@ -101,7 +102,7 @@ namespace Logica
         }
     
 
-    public string ActualizarPaciente(int? idPaciente, string nombre, string apellido, string direccion, string telefono, DateTime fechaNacimiento,string cedula)
+    public string ActualizarPaciente(int? idPaciente, string nombre, string apellido, string direccion, string telefono, DateTime fechaNacimiento,string cedula,string sexo = null)
         {
             if (string.IsNullOrWhiteSpace(cedula)||string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(apellido) || string.IsNullOrWhiteSpace(direccion) || string.IsNullOrWhiteSpace(telefono))
             {
@@ -118,7 +119,8 @@ namespace Logica
                     Direccion = direccion,
                     Telefono = telefono,
                     FechaNacimiento = fechaNacimiento,
-                    Cedula = cedula
+                    Cedula = cedula,
+                    Sexo = sexo
                     
                 };
 

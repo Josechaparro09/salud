@@ -23,7 +23,7 @@ public class ClienteWhatsApp
     public ClienteWhatsApp()
     {
         _clienteHttp = new HttpClient();
-        _tokenAcceso = "EAAGIZAj7iKmsBOyanINBNgHXZBMaTumWVuLZA04SZCBW01zfvWJe8kMHoZC38lrcHAM1B2LZBhKD6zS8avyGPxZCQNWO8ITxdyZAXZCZCDa1EP7ZAjTZCKsBVeORym5qZAfxTVvIkzynpjySFrOlKhPkvK60sgL7sqVITixJBJuNPoeuOex64GIlyUYAT0hoJbWtZAFXBcFQnMr2JC0quiRY9o9aDHuVFxhugZD";
+        _tokenAcceso = "EAAGIZAj7iKmsBO1NuZBIg7RI4ucf5DxZBkOoCsF3iODeHBUZB1q36G1KUbS4JUgxDr3R4NDwvMcuMV5uHaNOjcBzVsZCmmoHA8VrJP7tWOCRvdrzmT7Lh1uaISiwLY4tZBrlZAFKVAVzSepdPtALaRAcedJEMiOOmap1ZBIRiZBNZCcgc3EuyzkQiVtJl0bTNfSCTJsAZDZD";
         _idTelefono = "414206371786629";
         _clienteHttp.DefaultRequestHeaders.Add("Authorization", $"Bearer {_tokenAcceso}");
     }
@@ -59,7 +59,7 @@ public class ClienteWhatsApp
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Error al enviar mensaje: {ex.Message}");
+            
             return false;
         }
     }
@@ -199,7 +199,6 @@ public class ClienteWhatsApp
             });
 
             // Para debug - muestra el JSON que se enviará
-            MessageBox.Show($"JSON a enviar:\n{json}", "Debug", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             var contenido = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -212,32 +211,14 @@ public class ClienteWhatsApp
 
             if (!respuesta.IsSuccessStatusCode)
             {
-                MessageBox.Show(
-                    $"Error en la respuesta del servidor:\nCódigo: {respuesta.StatusCode}\nContenido: {responseContent}",
-                    "Error de Respuesta",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
                 return false;
             }
 
-            MessageBox.Show(
-                "Mensaje enviado exitosamente",
-                "Éxito",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            );
 
             return true;
         }
         catch (Exception ex)
         {
-            MessageBox.Show(
-                $"Error al enviar mensaje:\n{ex.Message}\n\nDetalles:\n{ex.StackTrace}",
-                "Error",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error
-            );
             return false;
         }
     }

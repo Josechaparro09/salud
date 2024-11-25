@@ -21,7 +21,7 @@ namespace Datos
             {
                 try
                 {
-                    string query = @"SELECT IdPaciente, Cedula, Nombre, Telefono, Direccion 
+                    string query = @"SELECT IdPaciente, Cedula, Nombre, Telefono, Direccion , Sexo
                            FROM Paciente 
                            WHERE LOWER(Cedula) LIKE LOWER(:criterio) 
                            OR LOWER(Nombre) LIKE LOWER(:criterio)";
@@ -39,7 +39,8 @@ namespace Datos
                                     Cedula = reader["Cedula"].ToString(),
                                     Nombre = reader["Nombre"].ToString(),
                                     Telefono = reader["Telefono"].ToString(),
-                                    Direccion = reader["Direccion"].ToString()
+                                    Direccion = reader["Direccion"].ToString(),
+                                    Sexo = reader["Sexo"].ToString()
                                 });
                             }
                         }
@@ -70,7 +71,7 @@ namespace Datos
                 Telefono, 
                 Cedula,
                 FechaNacimiento,
-                IdUsuario
+                IdUsuario,Sexo
                 FROM Paciente 
                 WHERE IdUsuario = :IdUsuario";
 
@@ -91,7 +92,8 @@ namespace Datos
                                     Telefono = reader["Telefono"].ToString(),
                                     Cedula = reader["Cedula"].ToString(),
                                     FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"]),
-                                    IdUsuario = Convert.ToInt32(reader["IdUsuario"])
+                                    IdUsuario = Convert.ToInt32(reader["IdUsuario"]),
+                                    Sexo = reader["Sexo"].ToString(),
                                 };
                             }
                             return null; 
@@ -116,7 +118,7 @@ namespace Datos
             {
                 try
                 {
-                    string query = "SELECT IdPaciente,Cedula, Nombre, Apellido, Direccion, Telefono, FechaNacimiento FROM Paciente";
+                    string query = "SELECT IdPaciente,Cedula, Nombre, Apellido, Direccion, Telefono, FechaNacimiento,Sexo FROM Paciente";
 
                     using (OracleCommand cmd = new OracleCommand(query, conn))
                     {
@@ -132,7 +134,8 @@ namespace Datos
                                     Apellido = reader["Apellido"].ToString(),
                                     Direccion = reader["Direccion"].ToString(),
                                     Telefono = reader["Telefono"].ToString(),
-                                    FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"])
+                                    FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"]),
+                                    Sexo = reader["Sexo"].ToString(),
                                 };
 
                                 pacientes.Add(paciente);
@@ -159,8 +162,8 @@ namespace Datos
             {
                 try
                 {
-                    string query = "INSERT INTO Paciente (Nombre,Cedula, Apellido, Direccion, Telefono, FechaNacimiento) " +
-                                   "VALUES (:Nombre,:Cedula, :Apellido, :Direccion, :Telefono, :FechaNacimiento)";
+                    string query = "INSERT INTO Paciente (Nombre,Cedula, Apellido, Direccion, Telefono, FechaNacimiento,Sexo) " +
+                                   "VALUES (:Nombre,:Cedula, :Apellido, :Direccion, :Telefono, :FechaNacimiento, :Sexo)";
 
                     using (OracleCommand cmd = new OracleCommand(query, conn))
                     {
@@ -170,6 +173,7 @@ namespace Datos
                         cmd.Parameters.Add(new OracleParameter("Direccion", paciente.Direccion));
                         cmd.Parameters.Add(new OracleParameter("Telefono", paciente.Telefono));
                         cmd.Parameters.Add(new OracleParameter("FechaNacimiento", paciente.FechaNacimiento));
+                        cmd.Parameters.Add(new OracleParameter("Sexo", paciente.Sexo));
 
                         cmd.ExecuteNonQuery(); 
                     }
@@ -190,7 +194,7 @@ namespace Datos
             {
                 try
                 {
-                    string query = "INSERT INTO Paciente (Nombre,Cedula, Apellido, Direccion, Telefono, FechaNacimiento,IdUsuario) " +
+                    string query = "INSERT INTO Paciente (Nombre,Cedula, Apellido, Direccion, Telefono, FechaNacimiento,IdUsuario,Sexo) " +
                                    "VALUES (:Nombre,:Cedula, :Apellido, :Direccion, :Telefono, :FechaNacimiento, :IdUsuario)";
 
                     using (OracleCommand cmd = new OracleCommand(query, conn))
@@ -202,6 +206,7 @@ namespace Datos
                         cmd.Parameters.Add(new OracleParameter("Telefono", paciente.Telefono));
                         cmd.Parameters.Add(new OracleParameter("FechaNacimiento", paciente.FechaNacimiento));
                         cmd.Parameters.Add(new OracleParameter("IdUsuario", idUsuario));
+                        cmd.Parameters.Add(new OracleParameter("Sexo", paciente.Sexo));
 
                         cmd.ExecuteNonQuery(); 
                     }
@@ -223,7 +228,7 @@ namespace Datos
             {
                 try
                 {
-                    string query = "UPDATE Paciente SET Nombre = :Nombre, Cedula = :Cedula, Apellido = :Apellido, Direccion = :Direccion, Telefono = :Telefono, FechaNacimiento = :FechaNacimiento " +
+                    string query = "UPDATE Paciente SET Nombre = :Nombre, Cedula = :Cedula, Apellido = :Apellido, Direccion = :Direccion, Telefono = :Telefono, FechaNacimiento = :FechaNacimiento, Sexo = :Sexo " +
                                    "WHERE IdPaciente = :IdPaciente";
 
                     using (OracleCommand cmd = new OracleCommand(query, conn))
@@ -235,6 +240,7 @@ namespace Datos
                         cmd.Parameters.Add(new OracleParameter("Telefono", paciente.Telefono));
                         cmd.Parameters.Add(new OracleParameter("FechaNacimiento", paciente.FechaNacimiento));
                         cmd.Parameters.Add(new OracleParameter("IdPaciente", paciente.IdPaciente));
+                        cmd.Parameters.Add(new OracleParameter("Sexo", paciente.Sexo));
 
                         cmd.ExecuteNonQuery(); 
                     }
@@ -266,7 +272,7 @@ public Paciente ObtenerPacientePorId(int? idPaciente)
                     Telefono, 
                     Direccion, 
                     FechaNacimiento,
-                    IdUsuario
+                    IdUsuario,Sexo
                 FROM Paciente 
                 WHERE IdPaciente = :IdPaciente";
 
@@ -287,9 +293,8 @@ public Paciente ObtenerPacientePorId(int? idPaciente)
                                     Telefono = reader["Telefono"].ToString(),
                                     Direccion = reader["Direccion"].ToString(),
                                     FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"]),
-                                    IdUsuario = reader["IdUsuario"] != DBNull.Value ?
-                                              Convert.ToInt32(reader["IdUsuario"]) :
-                                              (int?)null
+                                    IdUsuario = reader["IdUsuario"] != DBNull.Value ? Convert.ToInt32(reader["IdUsuario"]) :(int?)null,
+                                    Sexo = reader["Sexo"].ToString(),
                                 };
                             }
                             return null;

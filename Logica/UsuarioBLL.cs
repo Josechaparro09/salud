@@ -22,7 +22,7 @@ namespace Logica
             }
         }
 
-            public string RegistrarUsuario(string nombres, string apellidos, string nombreUsuario, string contrasena, int? idRol)
+            public string RegistrarUsuario(string nombres, string apellidos, string nombreUsuario, string contrasena, int? idRol, string sexo = null)
         {
             if (string.IsNullOrWhiteSpace(nombres) || string.IsNullOrWhiteSpace(apellidos) || string.IsNullOrWhiteSpace(nombreUsuario) || string.IsNullOrWhiteSpace(contrasena))
             {
@@ -47,7 +47,8 @@ namespace Logica
                     Apellidos = apellidos,
                     NombreUsuario = nombreUsuario,
                     Contraseña = contrasena,
-                    Rol = idRol.HasValue ? new Rol { IdRol = idRol.Value } : null
+                    Rol = idRol.HasValue ? new Rol { IdRol = idRol.Value } : null,
+                    Sexo = sexo
                 };
 
                 usuarioDAL.GuardarUsuario(nuevoUsuario);
@@ -58,7 +59,7 @@ namespace Logica
                 throw new Exception("Error al registrar el usuario: " + ex.Message);
             }
         }
-        public Usuario RegistrarNuevoUsuarioPaciente(string nombres, string apellidos, string nombreUsuario, string contraseña)
+        public Usuario RegistrarNuevoUsuarioPaciente(string nombres, string apellidos, string nombreUsuario, string contraseña, string sexo = null)
         {
             var usuario = new Usuario
             {
@@ -66,7 +67,8 @@ namespace Logica
                 Apellidos = apellidos,
                 NombreUsuario = nombreUsuario,
                 Contraseña = contraseña,
-                Rol = new Rol { IdRol = 21 } 
+                Rol = new Rol { IdRol = 21 },
+                Sexo= sexo
             };
 
             try
@@ -80,7 +82,7 @@ namespace Logica
             }
         }
 
-        public string ActualizarUsuario(int idUsuario, string nombres, string apellidos, string nombreUsuario, string contrasena, int? idRol)
+        public string ActualizarUsuario(int idUsuario, string nombres, string apellidos, string nombreUsuario, string contrasena, int? idRol, string sexo = null)
         {
             if (string.IsNullOrWhiteSpace(nombres) || string.IsNullOrWhiteSpace(apellidos) || string.IsNullOrWhiteSpace(nombreUsuario) || string.IsNullOrWhiteSpace(contrasena))
             {
@@ -96,7 +98,8 @@ namespace Logica
                     Apellidos = apellidos,
                     NombreUsuario = nombreUsuario,
                     Contraseña = contrasena,
-                    Rol = idRol.HasValue ? new Rol { IdRol = idRol.Value } : null
+                    Rol = idRol.HasValue ? new Rol { IdRol = idRol.Value } : null,
+                    Sexo = sexo
                 };
 
                 usuarioDAL.ActualizarUsuario(usuario);

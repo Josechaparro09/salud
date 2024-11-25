@@ -17,10 +17,11 @@ namespace Entidades
         public string NombreUsuario { get; set; }
         public string Contraseña { get; set; }
         public Rol Rol { get; set; }
+        public string Sexo { get; set; }
 
         public Usuario() { }
 
-        public Usuario(string nombres, string apellidos, string nombreUsuario, string contraseña, Rol rol)
+        public Usuario(string nombres, string apellidos, string nombreUsuario, string contraseña, Rol rol, string sexo = null)
         {
             IdUsuario = null;
             Nombres = nombres;
@@ -28,10 +29,12 @@ namespace Entidades
             NombreUsuario = nombreUsuario;
             Contraseña = contraseña;
             Rol = rol;
+            Sexo = sexo;
         }
 
+
         // Constructor con idUsuario
-        public Usuario(int? idUsuario, string nombres, string apellidos, string nombreUsuario, string contraseña, Rol rol)
+        public Usuario(int? idUsuario, string nombres, string apellidos, string nombreUsuario, string contraseña, Rol rol, string sexo = null)
         {
             IdUsuario = idUsuario;
             Nombres = nombres;
@@ -39,6 +42,7 @@ namespace Entidades
             NombreUsuario = nombreUsuario;
             Contraseña = contraseña;
             Rol = rol;
+            Sexo = sexo;
         }
 
 

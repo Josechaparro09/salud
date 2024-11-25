@@ -20,13 +20,14 @@ namespace Entidades
         public List<HistoriaClinica> HistoriaClinica { get; set; }
         public string Cedula { get; set; }
         public int? IdUsuario { get; set; }
+        public string Sexo { get; set; }
 
         public Paciente()
         {
 
         }
 
-        public Paciente(string nombre, string apellido, string direccion, string telefono, DateTime fechaNacimiento, List<HistoriaClinica> historiaClinica)
+        public Paciente(string nombre, string apellido, string direccion, string telefono, DateTime fechaNacimiento, List<HistoriaClinica> historiaClinica, string sexo =null)
         {
             IdPaciente = null;
             Nombre = nombre;
@@ -35,8 +36,9 @@ namespace Entidades
             Telefono = telefono;
             FechaNacimiento = fechaNacimiento;
             HistoriaClinica = historiaClinica;
+            Sexo = sexo;
         }
-        public Paciente(int idPaciente, string nombre, string apellido, string direccion, string telefono, DateTime fechaNacimiento, List<HistoriaClinica> historiaClinica)
+        public Paciente(int idPaciente, string nombre, string apellido, string direccion, string telefono, DateTime fechaNacimiento, List<HistoriaClinica> historiaClinica , string sexo = null)
         {
             IdPaciente = idPaciente;
             Nombre = nombre;

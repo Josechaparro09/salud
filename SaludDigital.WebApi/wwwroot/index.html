@@ -40,11 +40,42 @@
             margin-bottom: 2rem;
         }
 
+        .login-header p {
+        color: var(--text-color);
+        font-size: 1rem;
+        margin-top: 0.5rem;
+        }
+        .login-logo {
+            width: 180px; /* O el tamaño que prefieras */
+            height: auto;
+            margin-bottom: 1rem;
+            object-fit: contain;
+        }
+
             .login-header h1 {
                 color: var(--primary-color);
                 font-size: 2rem;
                 margin-bottom: 0.5rem;
             }
+
+        .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group select {
+            background-color: white;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 16px;
+        }
 
         .form-group {
             margin-bottom: 1.5rem;
@@ -104,34 +135,116 @@
             color: var(--success-color);
             border: 1px solid #bcf0da;
         }
+        .form-toggle {
+            text-align: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+        }
+
+            .form-toggle button {
+                background: none;
+                border: none;
+                color: var(--primary-color);
+                cursor: pointer;
+                font-size: 0.9rem;
+                text-decoration: underline;
+            }
+
+                .form-toggle button:hover {
+                    color: #2980b9;
+                }
+
+        .form-container {
+            display: none;
+        }
+
+            .form-container.active {
+                display: block;
+            }
+
+        .password-requirements {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
+        <!-- Formulario de Login -->
+
         <div class="login-header">
-            <h1>Salud Digital</h1>
-            <p>Ingrese sus credenciales</p>
+            <img src="/src/logo.png" alt="Salud Digital Logo" class="login-logo">
+            <p id="formDescription">Ingrese sus credenciales</p>
+        </div>
+        <div id="sisas" class="form-container active">
+            <form id="loginForm" class="form-group">
+                <div class="message" id="errorMessage"></div>
+                <div class="message" id="successMessage"></div>
+                <div class="form-group">
+                    <label for="username">Usuario</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn">Iniciar Sesión</button>
+            </form>
+            <div class="form-toggle">
+                <button type="button" onclick="toggleForm('register')">
+                    ¿No tienes cuenta? Regístrate aquí
+                </button>
+            </div>
         </div>
 
-        <form id="loginForm">
-            <div class="message" id="errorMessage"></div>
-            <div class="message" id="successMessage"></div>
-
+        <!-- Formulario de Registro -->
+        <div id="registerForm" class="form-container">
             <div class="form-group">
-                <label for="username">Usuario</label>
-                <input type="text" id="username" name="username" required>
+                <label for="regNombres">Nombres</label>
+                <input type="text" id="regNombres" required>
             </div>
-
             <div class="form-group">
-                <label for="password">Contraseña</label>
-                <input type="password" id="password" name="password" required>
+                <label for="regApellidos">Apellidos</label>
+                <input type="text" id="regApellidos" required>
             </div>
-
-            <button type="submit" class="btn">Iniciar Sesión</button>
-        </form>
-    </div>
+            <div class="form-group">
+                <label for="regSexo">Sexo</label>
+                <select id="regSexo" required>
+                    <option value="">Seleccionar</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                    <option value="O">Otro</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="regUsername">Nombre de Usuario</label>
+                <input type="text" id="regUsername" required>
+            </div>
+            <div class="form-group">
+                <label for="regPassword">Contraseña</label>
+                <input type="password" id="regPassword" required>
+                <div class="password-requirements">
+                    La contraseña debe tener al menos 6 caracteres
+                </div>
+            </div>
+            <button type="button" class="btn" onclick="registrarUsuario()">Registrarse</button>
+            <div class="form-toggle">
+                <button type="button" onclick="toggleForm('login')">
+                    ¿Ya tienes cuenta? Inicia sesión aquí
+                </button>
+            </div>
+        </div>
 
     <script src="/js/sessionService.js"></script>
+    <script src="/js/auth.js"></script>
     <script src="/js/login.js"></script>
 </body>
 </html>

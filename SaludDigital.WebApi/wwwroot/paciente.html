@@ -34,10 +34,16 @@
         }
 
         .navbar-brand {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            font-weight: bold;
+            display: flex;
+            align-items: center;
             text-decoration: none;
+            color: inherit;
+        }
+
+        .navbar-logo {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
         }
 
         .user-info {
@@ -156,7 +162,9 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="#" class="navbar-brand">Salud Digital</a>
+        <a href="#" class="navbar-brand">
+            <img src="/src/logo.png" alt="Salud Digital Logo" class="navbar-logo">
+        </a>
         <div class="user-info">
             <span class="user-name" id="userName">Cargando...</span>
             <button class="logout-btn" id="logoutBtn">
